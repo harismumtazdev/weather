@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard - Jhelum</title>
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #0f2027 100%);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        #container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loading state styling */
+        #container > p {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px 40px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Main Dashboard Layout */
+        section.main {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 24px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Left Column Style */
+        .left {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: space-between;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .left:hover {
+            transform: translateY(-4px);
+        }
+
+        .left img {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.3));
+            margin-bottom: 10px;
+        }
+
+        .left h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .left p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 6px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .left p strong {
+            color: #60a5fa;
+            font-weight: 500;
+        }
+
+        /* Right Column Style */
+        .right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .right .top {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .right .top h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Content Grid */
+        .right .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .right .content p {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .right .content p:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .right .content p strong {
+            color: #38bdf8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Bottom Air Quality Box */
+        .right .bottom {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(30, 58, 138, 0.3) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 20px;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .right .bottom h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .right .bottom p {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            section.main {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 16px;
+            }
+
+            .right .content {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <p>Loading.....</p>
+    </div>
+
+    <script>
+        async function fetchGitHubUser(username) {
+            const url = `https://api.weatherapi.com/v1/current.json?key=c5255f75e9304fb69c8105939261210&q=Jhelum`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                console.log(data);
+
+                const profileHtml = `
+                   <section class="main">
+                        <div class="left">
+                            <img src="${data.current.condition.icon}" alt="${data.login}">
+                            <h4>${data.location.name}</h4>
+                            <p><strong>Last Updated: </strong>${data.current.last_updated}</p>
+                            <p><strong>Temp: </strong>${data.current.temp_c}°C</p>
+                            <p><strong>Lat: </strong>${data.location.lat}</p>
+                            <p><strong>Lon: </strong>${data.location.lon}</p>
+                        </div>
+                        <div class="right">
+                            <div class="top">
+                                <h2>Weather Details</h2>
+                                <div class="content">
+                                   <p><strong>Humidity: </strong>${data.current.humidity}%</p>
+                                   <p><strong>Wind: </strong>${data.current.wind_kph} kph</p>
+                                   <p><strong>Pressure: </strong>${data.current.pressure_mb} mb</p>
+                                   <p><strong>Region: </strong>${data.location.region}</p>
+                                   <p><strong>Local Time: </strong>${data.location.localtime}</p>
+                                   <p><strong>Timezone: </strong>${data.location.tz_id}</p>
+                                   <p><strong>Country: </strong>${data.location.country}</p>
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <h2>Weather Condition</h2>
+                                <p>${data.current.condition.text}</p>
+                            </div>
+                        </div>
+                    </section>
+                `;
+
+                document.getElementById("container").innerHTML = profileHtml;
+
+                return data;
+            } catch (error) {
+                document.getElementById("container").innerHTML =
+                    `<p style="color: #ff6b6b; background: rgba(255, 0, 0, 0.1); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 0, 0, 0.3);">Error: ${error.message}</p>`;
+            }
+        }
+
+        fetchGitHubUser("Jhelum");
+    </script>
+</body>
+
+</html>
